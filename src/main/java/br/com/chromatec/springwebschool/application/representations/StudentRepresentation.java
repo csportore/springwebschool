@@ -1,3 +1,7 @@
 package br.com.chromatec.springwebschool.application.representations;
 
-public record StudentRepresentation (String name, String surname) { }
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.UUID;
+
+public record StudentRepresentation (@JsonIgnore UUID id, String name, String surname) { }
