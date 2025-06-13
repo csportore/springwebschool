@@ -33,4 +33,30 @@ public class StudentsService {
                 String.format("Student with id %s not found", id))
         ) );
     }
+
+    public StudentRepresentation insert(StudentRepresentation representation) {
+        var entity = this.repository.save(StudentMapper.INSTANCE.representationToEntity(representation));
+        return StudentMapper.INSTANCE.entityToRepresentation(entity);
+    }
+
+    public StudentRepresentation update(UUID id, StudentRepresentation representation) throws StudentNotFoundException {
+        var optEntity = this.repository.findById(id);
+        var entity = optEntity.orElseThrow(() -> new StudentNotFoundException(
+                String.format("Student with id %s not found", id))
+        ) ;
+        entity.setName(representation.name());
+        entity.setSurname(representation.surname());
+
+        this.repository.save(entity);
+        return StudentMapper.INSTANCE.entityToRepresentation(entity);
+    }
+
+    public UUID delete(UUID id) throws StudentNotFoundException {
+        try {
+            this.repository.deleteById(id);
+        } catch (IllegalArgumentException iae) {
+            throw new StudentNotFoundException(String.format("Student with id %s not found", id));
+        }
+        return id;
+    }
 }

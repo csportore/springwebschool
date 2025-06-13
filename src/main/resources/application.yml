@@ -16,6 +16,9 @@ spring:
   sql:
     init:
       mode: always
+logging:
+  level:
+    org.springframework.security.web: DEBUG
 server:
   servlet:
     context-path: /SpringWebSchool
