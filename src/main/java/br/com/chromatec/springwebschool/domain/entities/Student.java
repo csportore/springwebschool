@@ -3,7 +3,7 @@ package br.com.chromatec.springwebschool.domain.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.UUID;
+import java.math.BigInteger;
 
 @Entity
 @Table(name = "students")
@@ -11,7 +11,7 @@ public class Student implements Serializable {
 
         @Id
         @GeneratedValue
-        private UUID id;
+        private BigInteger id;
 
         @Column(nullable = false, length = 200)
         private String name;
@@ -19,11 +19,11 @@ public class Student implements Serializable {
         @Column(nullable = false, length = 200)
         private String surname;
 
-        public UUID getId() {
+        public BigInteger getId() {
                 return id;
         }
 
-        public void setId(UUID id) {
+        public void setId(BigInteger id) {
                 this.id = id;
         }
 

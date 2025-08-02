@@ -2,6 +2,6 @@ package br.com.chromatec.springwebschool.application.representations;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.UUID;
+import java.math.BigInteger;
 
-public record StudentRepresentation (@JsonIgnore UUID id, String name, String surname) { }
+public record StudentRepresentation (@JsonIgnore BigInteger id, String name, String surname) { }
