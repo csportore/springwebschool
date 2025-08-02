@@ -4,8 +4,8 @@ import br.com.chromatec.springwebschool.domain.entities.Student;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
+import java.math.BigInteger;
 
 @Repository
-public interface StudentsRepository extends CrudRepository<Student, UUID> {
+public interface StudentsRepository extends CrudRepository<Student, BigInteger> {
 }

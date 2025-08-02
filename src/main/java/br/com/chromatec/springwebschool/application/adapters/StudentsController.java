@@ -9,8 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpHeaders;
-import java.util.UUID;
+import java.math.BigInteger;
+
 
 @RestController
 @RequestMapping(value = "/students", consumes = MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
@@ -28,7 +28,7 @@ public class StudentsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable("id") UUID id) throws StudentNotFoundException {
+    public ResponseEntity<?> findById(@PathVariable("id") BigInteger id) throws StudentNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.findById(id));
     }
 
@@ -38,12 +38,12 @@ public class StudentsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody StudentRepresentation representation) throws StudentNotFoundException {
+    public ResponseEntity<?> update(@PathVariable("id") BigInteger id, @RequestBody StudentRepresentation representation) throws StudentNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.update(id, representation));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") UUID id) throws StudentNotFoundException {
+    public ResponseEntity<?> delete(@PathVariable("id") BigInteger id) throws StudentNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(this.service.delete(id));
     }
 
