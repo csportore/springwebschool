@@ -6,6 +6,7 @@ import br.com.chromatec.springwebschool.application.representations.StudentRepre
 import br.com.chromatec.springwebschool.infrastructure.ports.StudentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -34,11 +35,13 @@ public class StudentsService {
         ) );
     }
 
+    @Transactional
     public StudentRepresentation insert(StudentRepresentation representation) {
         var entity = this.repository.save(StudentMapper.INSTANCE.representationToEntity(representation));
         return StudentMapper.INSTANCE.entityToRepresentation(entity);
     }
 
+    @Transactional
     public StudentRepresentation update(BigInteger id, StudentRepresentation representation) throws StudentNotFoundException {
         var optEntity = this.repository.findById(id);
         var entity = optEntity.orElseThrow(() -> new StudentNotFoundException(
@@ -50,7 +53,7 @@ public class StudentsService {
         this.repository.save(entity);
         return StudentMapper.INSTANCE.entityToRepresentation(entity);
     }
-
+    @Transactional
     public BigInteger delete(BigInteger id) throws StudentNotFoundException {
         try {
             this.repository.deleteById(id);
