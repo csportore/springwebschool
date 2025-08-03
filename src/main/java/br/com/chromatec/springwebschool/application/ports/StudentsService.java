@@ -6,6 +6,8 @@ import br.com.chromatec.springwebschool.application.representations.StudentRepre
 import br.com.chromatec.springwebschool.infrastructure.ports.StudentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class StudentsService {
         this.repository = repository;
     }
 
+    @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
     public List<StudentRepresentation> findAll() {
         var entityList = this.repository.findAll();
         var representationList = new ArrayList<StudentRepresentation>();
@@ -27,6 +30,7 @@ public class StudentsService {
         return representationList;
     }
 
+    @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
     public StudentRepresentation findById(BigInteger id) throws StudentNotFoundException {
         var entity =  this.repository.findById(id);
         return StudentMapper.INSTANCE.entityToRepresentation(entity.orElseThrow( () -> new StudentNotFoundException(
@@ -34,11 +38,13 @@ public class StudentsService {
         ) );
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public StudentRepresentation insert(StudentRepresentation representation) {
         var entity = this.repository.save(StudentMapper.INSTANCE.representationToEntity(representation));
         return StudentMapper.INSTANCE.entityToRepresentation(entity);
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public StudentRepresentation update(BigInteger id, StudentRepresentation representation) throws StudentNotFoundException {
         var optEntity = this.repository.findById(id);
         var entity = optEntity.orElseThrow(() -> new StudentNotFoundException(
@@ -51,6 +57,7 @@ public class StudentsService {
         return StudentMapper.INSTANCE.entityToRepresentation(entity);
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public BigInteger delete(BigInteger id) throws StudentNotFoundException {
         try {
             this.repository.deleteById(id);
